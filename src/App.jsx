@@ -40,14 +40,22 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Random Numbers</h1>
-      <div>
-      {numbers.map((number, index) => (
-        <div key={index}>{number}</div>
-      ))}</div>
-      <h2>Median: {median !== null ? median : "Calculating"}</h2>
-    </div>
+    <div className="flex flex-col items-center p-4">
+  <h1 className="text-xl font-semibold">Random Numbers</h1>
+
+  <div className="mt-2 p-2  rounded w-48 text-center flex gap-1 flex-wrap">
+    {numbers.length > 0 ? (
+      numbers.map((number, index) => <div key={index}>{number}</div>)
+    ) : (
+      <p>Fetching numbers...</p>
+    )}
+  </div>
+
+  <h2 className="mt-2 text-lg">
+    Median: <span className="font-medium">{median !== null ? median : "Calculating..."}</span>
+  </h2>
+</div>
+
   );
 };
 
