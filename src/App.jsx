@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { calculateMedian } from "./utils/calculateMedian";
+
 const App = () => {
   const [numbers, setNumbers] = useState([]);
-  const [timerStop, setTimerStop] = useState(1);
-  const [intervalId, setIntervalID] = useState(null);
   const [median, setMedian] = useState(null);
- 
 
   async function getRandomNumber() {
     try {
-      if (timerStop >= 1000) {
-        clearInterval(intervalId);
-        return;
-      }
-
       const res = await fetch("http://www.randomnumberapi.com/api/v1.0/random");
       const data = await res.json();
 
@@ -23,18 +16,22 @@ const App = () => {
         setMedian(median)
         return newNumbers;
       });
-
-      setTimerStop((prev) => prev + 1);
     } catch (err) {
       console.log(err.message);
     }
   }
 
   useEffect(() => {
-    const id = setInterval(() => {
-      getRandomNumber();
+    let count = 0;
+
+    const id = setInterval(async () => {
+      if (count >= 10) {
+        clearInterval(id);
+        return;
+      }
+      await getRandomNumber();
+      count++;
     }, 1000);
-    setIntervalID(id);
 
     return () => clearInterval(id);
   }, []);
