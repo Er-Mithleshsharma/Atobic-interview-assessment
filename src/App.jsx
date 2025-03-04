@@ -25,7 +25,7 @@ const App = () => {
     let count = 0;
 
     const id = setInterval(async () => {
-      if (count >= 10) {
+      if (count > 1000) {
         clearInterval(id);
         return;
       }
